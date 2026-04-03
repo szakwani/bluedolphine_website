@@ -127,133 +127,112 @@
           </div>
         </div>
 
-        <!-- Hero visual — Omani truck on Al Hajar highway -->
+        <!-- Hero visual — BDE truck icon -->
         <div class="hero-visual reveal-right" aria-hidden="true">
           <div class="hero-graphic">
             <div class="graphic-ring ring-outer"></div>
             <div class="graphic-ring ring-inner"></div>
             <div class="graphic-center">
-              <svg viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+              <svg viewBox="0 0 220 118" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
                 <defs>
-                  <linearGradient id="hg-sky" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#060e1a"/>
-                    <stop offset="55%" stop-color="#0e2a48"/>
+                  <linearGradient id="bt-box" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#ffffff"/>
+                    <stop offset="100%" stop-color="#edf2f7"/>
+                  </linearGradient>
+                  <linearGradient id="bt-cab" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#2471a3"/>
                     <stop offset="100%" stop-color="#1a5276"/>
                   </linearGradient>
-                  <linearGradient id="hg-sand" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#b8834a"/>
-                    <stop offset="100%" stop-color="#7a4e20"/>
+                  <linearGradient id="bt-wheel" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#333"/>
+                    <stop offset="100%" stop-color="#111"/>
                   </linearGradient>
-                  <linearGradient id="hg-mtn1" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#4a6a7a"/>
-                    <stop offset="100%" stop-color="#1e3a48"/>
-                  </linearGradient>
-                  <linearGradient id="hg-mtn2" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#3a5a6e"/>
-                    <stop offset="100%" stop-color="#162838"/>
-                  </linearGradient>
-                  <linearGradient id="hg-road" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#2a2a2a"/>
-                    <stop offset="100%" stop-color="#444"/>
-                  </linearGradient>
+                  <filter id="bt-shadow" x="-5%" y="-5%" width="115%" height="125%">
+                    <feDropShadow dx="1" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.18"/>
+                  </filter>
                 </defs>
 
-                <!-- Sky -->
-                <rect width="280" height="210" fill="url(#hg-sky)" rx="6"/>
+                <!-- Speed lines -->
+                <line x1="0" y1="40" x2="24" y2="40" stroke="#5dade2" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>
+                <line x1="0" y1="52" x2="16" y2="52" stroke="#5dade2" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/>
+                <line x1="0" y1="63" x2="20" y2="63" stroke="#5dade2" stroke-width="1.2" stroke-linecap="round" opacity="0.35"/>
 
-                <!-- Stars -->
-                <circle cx="18" cy="16" r="1" fill="white" opacity="0.8"/>
-                <circle cx="48" cy="10" r="1.2" fill="white" opacity="0.7"/>
-                <circle cx="85" cy="18" r="0.8" fill="white" opacity="0.6"/>
-                <circle cx="115" cy="8" r="1" fill="white" opacity="0.7"/>
-                <circle cx="32" cy="35" r="0.7" fill="white" opacity="0.5"/>
-                <circle cx="68" cy="28" r="1.1" fill="white" opacity="0.6"/>
-                <circle cx="20" cy="50" r="0.8" fill="white" opacity="0.5"/>
+                <!-- Box body (white cargo area) -->
+                <rect x="27" y="14" width="130" height="73" rx="3" fill="url(#bt-box)" stroke="#c8d4de" stroke-width="1" filter="url(#bt-shadow)"/>
+                <!-- Box roof lip -->
+                <rect x="27" y="14" width="130" height="5" rx="2" fill="#d8e4ee"/>
+                <!-- Box bottom rail -->
+                <rect x="27" y="80" width="130" height="7" rx="1" fill="#c0ccd8"/>
+                <!-- Subtle vertical panel seam -->
+                <line x1="27" y1="19" x2="27" y2="80" stroke="#c8d4de" stroke-width="1" opacity="0.6"/>
+                <line x1="157" y1="19" x2="157" y2="80" stroke="#c8d4de" stroke-width="1" opacity="0.6"/>
 
-                <!-- Crescent moon -->
-                <circle cx="238" cy="32" r="18" fill="#e8c84a" opacity="0.22"/>
-                <circle cx="246" cy="28" r="14" fill="#060e1a" opacity="0.95"/>
+                <!-- BDE text on white box -->
+                <text x="91" y="58" text-anchor="middle" font-size="30" fill="#1a5276" font-weight="900" font-family="Arial,sans-serif" letter-spacing="5">BDE</text>
+                <!-- Tagline -->
+                <text x="91" y="70" text-anchor="middle" font-size="5.8" fill="#2980b9" font-family="Arial,sans-serif" letter-spacing="1.5" opacity="0.85">BLUE DOLPHIN ENTERPRISE</text>
 
-                <!-- Mountains background (Al Hajar range) -->
-                <path d="M0 118 L22 76 L44 92 L70 52 L95 78 L120 46 L145 68 L168 42 L192 62 L215 48 L240 66 L265 50 L280 58 L280 118 Z" fill="#2a4a5a" opacity="0.45"/>
-                <!-- Mountains midground -->
-                <path d="M0 130 L30 92 L58 110 L88 80 L115 100 L145 74 L172 96 L200 82 L228 100 L255 86 L280 98 L280 130 Z" fill="url(#hg-mtn1)" opacity="0.65"/>
-                <!-- Mountains foreground -->
-                <path d="M0 142 L38 108 L70 126 L102 94 L130 116 L158 102 L184 118 L210 106 L240 122 L280 108 L280 142 Z" fill="url(#hg-mtn2)" opacity="0.8"/>
+                <!-- Omani flag stripe at box bottom -->
+                <rect x="27" y="73" width="130" height="2.2" fill="#DB161B" opacity="0.85"/>
+                <rect x="27" y="75.2" width="130" height="2.2" fill="#1a5276" opacity="0.1"/>
+                <rect x="27" y="75.2" width="130" height="2.2" fill="white" opacity="0.85"/>
+                <rect x="27" y="77.4" width="130" height="2.2" fill="#009A44" opacity="0.85"/>
 
-                <!-- Desert ground -->
-                <path d="M0 142 Q70 137 140 142 Q210 147 280 140 L280 210 L0 210 Z" fill="url(#hg-sand)"/>
-                <!-- Sand dune details -->
-                <path d="M0 160 Q40 155 80 162 Q120 169 160 160 Q200 151 240 158 Q260 162 280 158 L280 210 L0 210Z" fill="#a06828" opacity="0.35"/>
-
-                <!-- Road in perspective -->
-                <path d="M88 210 L116 148 L164 148 L192 210 Z" fill="url(#hg-road)" opacity="0.88"/>
-                <!-- Road centre line -->
-                <path d="M140 210 L140 148" stroke="white" stroke-width="1.5" stroke-dasharray="10,9" opacity="0.35"/>
-                <!-- Road edges -->
-                <line x1="88" y1="210" x2="116" y2="148" stroke="#aaa" stroke-width="0.8" opacity="0.3"/>
-                <line x1="192" y1="210" x2="164" y2="148" stroke="#aaa" stroke-width="0.8" opacity="0.3"/>
-
-                <!-- Truck trailer -->
-                <rect x="72" y="160" width="92" height="38" rx="2" fill="#102840"/>
-                <!-- Trailer cargo panels -->
-                <rect x="74" y="162" width="28" height="34" rx="1" fill="#0d2235" stroke="#1a3d5c" stroke-width="0.6"/>
-                <rect x="104" y="162" width="28" height="34" rx="1" fill="#0d2235" stroke="#1a3d5c" stroke-width="0.6"/>
-                <rect x="134" y="162" width="28" height="34" rx="1" fill="#0d2235" stroke="#1a3d5c" stroke-width="0.6"/>
-                <!-- BDE branding on trailer -->
-                <rect x="76" y="170" width="24" height="16" rx="1" fill="#081820"/>
-                <text x="88" y="182" text-anchor="middle" font-size="7" fill="#5dade2" font-weight="bold" font-family="Arial, sans-serif">BDE</text>
-                <!-- Omani flag stripe on trailer -->
-                <rect x="74" y="193" width="88" height="2.2" fill="#DB161B" opacity="0.85"/>
-                <rect x="74" y="195" width="88" height="2.2" fill="white" opacity="0.85"/>
-                <rect x="74" y="197" width="88" height="2.2" fill="#009A44" opacity="0.85"/>
-
-                <!-- Truck cab -->
-                <rect x="164" y="152" width="42" height="46" rx="3" fill="#1e6090"/>
+                <!-- Cab (connected to box) -->
+                <rect x="157" y="28" width="50" height="59" rx="4" fill="url(#bt-cab)" filter="url(#bt-shadow)"/>
                 <!-- Windshield -->
-                <path d="M165 155 L205 155 L205 172 L165 172 Z" fill="#6bb8d8" opacity="0.55"/>
-                <!-- Cab stripe -->
-                <rect x="164" y="172" width="42" height="3" fill="#155078"/>
+                <rect x="160" y="32" width="42" height="30" rx="3" fill="#a8d8ea" opacity="0.55"/>
+                <!-- Windshield glare line -->
+                <line x1="164" y1="34" x2="169" y2="59" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.28"/>
+                <!-- Cab door divider -->
+                <line x1="160" y1="64" x2="202" y2="64" stroke="#155078" stroke-width="0.8" opacity="0.5"/>
+                <!-- Door handle -->
+                <rect x="176" y="69" width="13" height="3" rx="1.5" fill="#1a6090"/>
                 <!-- Grille -->
-                <rect x="164" y="186" width="42" height="9" rx="1" fill="#0e3a58"/>
-                <line x1="173" y1="186" x2="173" y2="195" stroke="#2980b9" stroke-width="0.6" opacity="0.6"/>
-                <line x1="182" y1="186" x2="182" y2="195" stroke="#2980b9" stroke-width="0.6" opacity="0.6"/>
-                <line x1="191" y1="186" x2="191" y2="195" stroke="#2980b9" stroke-width="0.6" opacity="0.6"/>
-                <line x1="200" y1="186" x2="200" y2="195" stroke="#2980b9" stroke-width="0.6" opacity="0.6"/>
-                <!-- Headlights -->
-                <rect x="200" y="174" width="6" height="7" rx="1" fill="#fef9c3" opacity="0.95"/>
-                <rect x="200" y="182" width="6" height="4" rx="1" fill="#f97316" opacity="0.8"/>
-                <!-- Exhaust stack -->
-                <rect x="202" y="148" width="4" height="14" rx="1" fill="#0e3a58"/>
-                <ellipse cx="204" cy="143" rx="5" ry="3" fill="white" opacity="0.06"/>
-                <ellipse cx="205" cy="138" rx="3.5" ry="2" fill="white" opacity="0.04"/>
-                <!-- Cab flag stripe -->
-                <rect x="164" y="196" width="42" height="2" fill="#DB161B" opacity="0.7"/>
+                <rect x="199" y="58" width="8" height="24" rx="2" fill="#0d2f4a"/>
+                <line x1="202" y1="60" x2="202" y2="80" stroke="#2980b9" stroke-width="0.7" opacity="0.55"/>
+                <line x1="205" y1="60" x2="205" y2="80" stroke="#2980b9" stroke-width="0.7" opacity="0.55"/>
+                <!-- Bumper -->
+                <rect x="199" y="82" width="10" height="5" rx="2" fill="#0a2035"/>
+                <!-- Headlight -->
+                <rect x="200" y="46" width="7" height="9" rx="2" fill="#fef9c3" opacity="0.97"/>
+                <!-- Turn signal -->
+                <rect x="200" y="56" width="7" height="5" rx="1" fill="#fb923c" opacity="0.88"/>
+                <!-- Headlight beam glow -->
+                <ellipse cx="207" cy="50" rx="5" ry="5" fill="#fef9c3" opacity="0.1"/>
+                <!-- Cab top marker lights -->
+                <rect x="160" y="28" width="48" height="4" rx="2" fill="#1e6090"/>
+                <circle cx="168" cy="30" r="1.5" fill="#fb923c" opacity="0.75"/>
+                <circle cx="176" cy="30" r="1.5" fill="#fb923c" opacity="0.75"/>
+                <circle cx="184" cy="30" r="1.5" fill="#fb923c" opacity="0.75"/>
+                <circle cx="192" cy="30" r="1.5" fill="#fb923c" opacity="0.75"/>
+                <!-- Exhaust -->
+                <rect x="200" y="16" width="4" height="16" rx="2" fill="#0d2f4a"/>
+                <ellipse cx="202" cy="14" rx="4" ry="2.5" fill="white" opacity="0.06"/>
 
-                <!-- Wheels -->
-                <circle cx="96" cy="200" r="9" fill="#0e0e0e"/><circle cx="96" cy="200" r="5" fill="#1e1e1e"/><circle cx="96" cy="200" r="2" fill="#444"/>
-                <circle cx="124" cy="200" r="9" fill="#0e0e0e"/><circle cx="124" cy="200" r="5" fill="#1e1e1e"/><circle cx="124" cy="200" r="2" fill="#444"/>
-                <circle cx="170" cy="200" r="9" fill="#0e0e0e"/><circle cx="170" cy="200" r="5" fill="#1e1e1e"/><circle cx="170" cy="200" r="2" fill="#444"/>
-                <circle cx="194" cy="200" r="9" fill="#0e0e0e"/><circle cx="194" cy="200" r="5" fill="#1e1e1e"/><circle cx="194" cy="200" r="2" fill="#444"/>
+                <!-- Undercarriage bar -->
+                <rect x="27" y="87" width="180" height="4" rx="2" fill="#a8b8c8"/>
 
-                <!-- Palm tree left -->
-                <rect x="37" y="152" width="3" height="30" rx="1" fill="#5a3810"/>
-                <path d="M38 153 Q28 143 18 148 Q28 146 38 153" fill="#2a6a2a" opacity="0.75"/>
-                <path d="M38 153 Q48 143 58 148 Q48 146 38 153" fill="#2a6a2a" opacity="0.75"/>
-                <path d="M38 153 Q32 138 22 140 Q32 140 38 153" fill="#358a35" opacity="0.65"/>
-                <path d="M38 153 Q44 138 54 140 Q44 140 38 153" fill="#358a35" opacity="0.65"/>
+                <!-- Rear wheel -->
+                <circle cx="72" cy="101" r="13" fill="url(#bt-wheel)"/>
+                <circle cx="72" cy="101" r="8" fill="#222"/>
+                <circle cx="72" cy="101" r="4" fill="#4a4a4a"/>
+                <circle cx="72" cy="93" r="1.3" fill="#666"/>
+                <circle cx="80" cy="101" r="1.3" fill="#666"/>
+                <circle cx="72" cy="109" r="1.3" fill="#666"/>
+                <circle cx="64" cy="101" r="1.3" fill="#666"/>
 
-                <!-- Camel silhouette (right side) -->
-                <path d="M242 152 Q243 146 247 148 Q249 144 252 146 Q254 143 257 145 L258 160 L252 163 L246 160 Z" fill="#7a4a18" opacity="0.55"/>
-                <line x1="245" y1="160" x2="244" y2="172" stroke="#7a4a18" stroke-width="2" opacity="0.55"/>
-                <line x1="249" y1="161" x2="249" y2="172" stroke="#7a4a18" stroke-width="2" opacity="0.55"/>
-                <line x1="253" y1="161" x2="253" y2="172" stroke="#7a4a18" stroke-width="2" opacity="0.55"/>
-                <line x1="257" y1="160" x2="257" y2="172" stroke="#7a4a18" stroke-width="2" opacity="0.55"/>
-                <!-- Camel head/neck -->
-                <path d="M258 145 Q262 140 260 135 Q262 133 260 130 Q256 132 257 138 Q255 142 258 145" fill="#7a4a18" opacity="0.55"/>
+                <!-- Front wheel -->
+                <circle cx="180" cy="101" r="13" fill="url(#bt-wheel)"/>
+                <circle cx="180" cy="101" r="8" fill="#222"/>
+                <circle cx="180" cy="101" r="4" fill="#4a4a4a"/>
+                <circle cx="180" cy="93" r="1.3" fill="#666"/>
+                <circle cx="188" cy="101" r="1.3" fill="#666"/>
+                <circle cx="180" cy="109" r="1.3" fill="#666"/>
+                <circle cx="172" cy="101" r="1.3" fill="#666"/>
 
-                <!-- Headlight beam -->
-                <path d="M206 177 L228 170 L228 184 Z" fill="#fef9c3" opacity="0.08"/>
+                <!-- Ground shadow -->
+                <ellipse cx="115" cy="114" rx="88" ry="3.5" fill="black" opacity="0.13"/>
               </svg>
             </div>
 
@@ -815,106 +794,13 @@
             </div>
 
             <!-- Map Placeholder — replace the div below with an actual Google Maps or Mapbox embed -->
-            <div class="map-placeholder oman-map-wrap" role="img" aria-label="BDE coverage across Oman — Muscat, Sohar, Duqm, Salalah">
-              <svg viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg" class="oman-map-svg">
-                <defs>
-                  <linearGradient id="om-sea" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#eaf4fc"/>
-                    <stop offset="100%" stop-color="#d0e8f8"/>
-                  </linearGradient>
-                  <linearGradient id="om-land" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#fdf6ec"/>
-                    <stop offset="100%" stop-color="#f0e4cc"/>
-                  </linearGradient>
-                  <filter id="om-glow">
-                    <feGaussianBlur stdDeviation="2" result="blur"/>
-                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                  </filter>
-                </defs>
-
-                <!-- Sea background -->
-                <rect width="220" height="260" fill="url(#om-sea)" rx="10"/>
-
-                <!-- Oman country outline (simplified but recognisable) -->
-                <path d="
-                  M 165,22
-                  L 178,35
-                  L 185,52
-                  L 188,72
-                  L 184,95
-                  L 178,118
-                  L 172,140
-                  L 165,162
-                  L 155,182
-                  L 140,200
-                  L 122,212
-                  L 100,218
-                  L 78,214
-                  L 58,202
-                  L 42,184
-                  L 32,162
-                  L 28,138
-                  L 30,112
-                  L 36,88
-                  L 44,66
-                  L 55,48
-                  L 70,34
-                  L 88,24
-                  L 108,18
-                  L 130,18
-                  L 148,20
-                  Z
-                " fill="url(#om-land)" stroke="#c8a46a" stroke-width="1.5"/>
-
-                <!-- Desert texture dots -->
-                <circle cx="80" cy="80" r="1.5" fill="#d4b06a" opacity="0.4"/>
-                <circle cx="100" cy="100" r="1.5" fill="#d4b06a" opacity="0.4"/>
-                <circle cx="120" cy="70" r="1.5" fill="#d4b06a" opacity="0.4"/>
-                <circle cx="90" cy="130" r="1.5" fill="#d4b06a" opacity="0.4"/>
-                <circle cx="70" cy="110" r="1.5" fill="#d4b06a" opacity="0.4"/>
-                <circle cx="140" cy="110" r="1.5" fill="#d4b06a" opacity="0.4"/>
-                <circle cx="110" cy="150" r="1.5" fill="#d4b06a" opacity="0.4"/>
-                <circle cx="130" cy="180" r="1.5" fill="#d4b06a" opacity="0.3"/>
-
-                <!-- Mountain range (Al Hajar) indication -->
-                <path d="M 90,40 L 105,30 L 120,38 L 135,28 L 150,36 L 165,28 L 178,38" stroke="#b8976a" stroke-width="1.5" fill="none" opacity="0.5" stroke-linecap="round" stroke-linejoin="round"/>
-
-                <!-- Route lines between ports -->
-                <path d="M 162,40 L 148,72 L 172,130 L 128,210" stroke="#2980b9" stroke-width="1.2" fill="none" opacity="0.3" stroke-dasharray="4,4"/>
-
-                <!-- PORT: Sohar -->
-                <circle cx="148" cy="36" r="7" fill="#2980b9" opacity="0.2" filter="url(#om-glow)"/>
-                <circle cx="148" cy="36" r="4.5" fill="#2980b9"/>
-                <circle cx="148" cy="36" r="2" fill="white"/>
-                <text x="136" y="28" font-size="8.5" fill="#1a5276" font-weight="700" font-family="Arial,sans-serif">Sohar</text>
-
-                <!-- PORT: Muscat (main) -->
-                <circle cx="168" cy="58" r="9" fill="#1a5276" opacity="0.2" filter="url(#om-glow)"/>
-                <circle cx="168" cy="58" r="6" fill="#1a5276"/>
-                <circle cx="168" cy="58" r="2.5" fill="white"/>
-                <text x="174" y="56" font-size="9.5" fill="#1a5276" font-weight="800" font-family="Arial,sans-serif">Muscat</text>
-                <text x="174" y="67" font-size="7" fill="#2980b9" font-family="Arial,sans-serif">HQ &amp; Port</text>
-
-                <!-- PORT: Duqm -->
-                <circle cx="172" cy="132" r="7" fill="#2980b9" opacity="0.2" filter="url(#om-glow)"/>
-                <circle cx="172" cy="132" r="4.5" fill="#2980b9"/>
-                <circle cx="172" cy="132" r="2" fill="white"/>
-                <text x="178" y="136" font-size="8.5" fill="#1a5276" font-weight="700" font-family="Arial,sans-serif">Duqm</text>
-
-                <!-- PORT: Salalah -->
-                <circle cx="128" cy="210" r="7" fill="#2980b9" opacity="0.2" filter="url(#om-glow)"/>
-                <circle cx="128" cy="210" r="4.5" fill="#2980b9"/>
-                <circle cx="128" cy="210" r="2" fill="white"/>
-                <text x="136" y="214" font-size="8.5" fill="#1a5276" font-weight="700" font-family="Arial,sans-serif">Salalah</text>
-
-                <!-- BDE watermark label -->
-                <text x="60" y="165" font-size="22" fill="#1a5276" font-weight="900" font-family="Arial,sans-serif" opacity="0.06" transform="rotate(-30,60,165)">BDE</text>
-
-                <!-- Map title -->
-                <rect x="8" y="238" width="204" height="16" rx="4" fill="#1a5276" opacity="0.08"/>
-                <text x="110" y="250" text-anchor="middle" font-size="8" fill="#1a5276" font-weight="700" font-family="Arial,sans-serif" letter-spacing="0.5">SULTANATE OF OMAN — KEY COVERAGE PORTS</text>
-              </svg>
-              <a href="https://maps.google.com/?q=Muscat,Oman" target="_blank" rel="noopener noreferrer" class="map-link">Open in Google Maps →</a>
+            <div class="map-placeholder" role="img" aria-label="BDE office location in Muscat, Oman">
+              <div class="map-inner">
+                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M32 6 Q42 16 42 26 Q42 40 32 54 Q22 40 22 26 Q22 16 32 6Z" fill="#2980b9" opacity="0.2"/><path d="M32 6 Q42 16 42 26 Q42 40 32 54 Q22 40 22 26 Q22 16 32 6Z" stroke="#2980b9" stroke-width="2" fill="none"/><circle cx="32" cy="26" r="6" fill="#1a5276"/></svg>
+                <p><strong>Muscat, Sultanate of Oman</strong><br/>
+                  <a href="https://maps.google.com/?q=Muscat,Oman" target="_blank" rel="noopener noreferrer" style="color:var(--clr-primary-light);font-size:0.85rem;">Open in Google Maps →</a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
