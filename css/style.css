@@ -1458,7 +1458,7 @@ a.info-value:hover { color: var(--clr-primary); }
 .map-placeholder {
   background: var(--clr-primary-pale);
   border-radius: var(--radius-md);
-  border: 1px dashed var(--clr-border);
+  border: 1px solid var(--clr-border);
   overflow: hidden;
   min-height: 180px;
   display: flex;
@@ -1486,6 +1486,37 @@ a.info-value:hover { color: var(--clr-primary); }
   color: var(--clr-text-light);
   max-width: 240px;
 }
+
+/* Oman SVG Map */
+.oman-map-wrap {
+  flex-direction: column;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.oman-map-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.map-link {
+  display: block;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--clr-primary-light);
+  padding: 0.6rem;
+  background: var(--clr-primary-pale);
+  border-top: 1px solid var(--clr-border);
+  transition: color var(--transition);
+  text-decoration: none;
+}
+
+.map-link:hover { color: var(--clr-primary); }
 
 
 /* ------------------------------------------------------------------
