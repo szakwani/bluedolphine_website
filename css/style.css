@@ -300,11 +300,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .logo-icon {
-  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--clr-accent);
-  line-height: 1;
-  transform: rotate(-90deg);
-  display: inline-block;
+  flex-shrink: 0;
 }
 
 .logo-text {
@@ -1643,7 +1643,52 @@ a.info-value:hover { color: var(--clr-primary); }
 
 
 /* ------------------------------------------------------------------
-   16. Back to Top Button
+   16. WhatsApp Floating Button
+------------------------------------------------------------------ */
+.whatsapp-float {
+  position: fixed;
+  bottom: 6.5rem;
+  right: 1.75rem;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: #25d366;
+  color: var(--clr-white);
+  padding: 0.65rem 1.1rem 0.65rem 0.85rem;
+  border-radius: 50px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 6px 24px rgba(37, 211, 102, 0.45);
+  text-decoration: none;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.whatsapp-float svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.whatsapp-float:hover {
+  background: #20b858;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(37, 211, 102, 0.55);
+}
+
+@media (max-width: 480px) {
+  .whatsapp-float span { display: none; }
+  .whatsapp-float {
+    padding: 0.75rem;
+    border-radius: 50%;
+    bottom: 6rem;
+  }
+}
+
+
+/* ------------------------------------------------------------------
+   17. Back to Top Button
 ------------------------------------------------------------------ */
 .back-to-top {
   position: fixed;
@@ -1779,7 +1824,7 @@ a.info-value:hover { color: var(--clr-primary); }
    19. Print Styles
 ------------------------------------------------------------------ */
 @media print {
-  .navbar, .back-to-top, .scroll-indicator,
+  .navbar, .back-to-top, .whatsapp-float, .scroll-indicator,
   .hero-bg, .hero-visual, .float-badge {
     display: none !important;
   }
