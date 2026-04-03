@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: bluedolphine-website
+    env: static
+    buildCommand: ""
+    staticPublishPath: .
+    branch: main
