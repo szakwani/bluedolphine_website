@@ -190,7 +190,7 @@ const prefersReducedMotion =
       }
     } catch (err) {
       status.textContent =
-        'Something went wrong sending your request. Please try again, or email info@bluedolphinenterprise.com directly.';
+        'Something went wrong sending your request. Please try again, or email info@bluedolphinent.com directly.';
       status.classList.add('error');
     } finally {
       button.disabled = false;
