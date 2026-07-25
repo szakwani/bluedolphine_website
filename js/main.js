@@ -1,357 +1,208 @@
 /**
  * Blue Dolphin Enterprise (BDE) — Main JavaScript
  * Features:
- *  - Sticky / scroll-aware navbar
+ *  - Scroll progress bar + scroll-aware navbar
  *  - Mobile hamburger menu
- *  - Smooth-scroll active-link highlighting
  *  - Scroll-reveal animations (Intersection Observer)
  *  - Animated stat counters
- *  - Contact form validation & submission feedback
+ *  - Contact form validation & AJAX submission (Formspree)
  *  - Back-to-top button
  *  - Dynamic footer year
  */
 
 'use strict';
 
-/* ------------------------------------------------------------------
-   Utility: debounce
------------------------------------------------------------------- */
-function debounce(fn, delay) {
-  let timer;
-  return function (...args) {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn.apply(this, args), delay);
-  };
-}
-
+const prefersReducedMotion =
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ------------------------------------------------------------------
-   1. Sticky Navbar
+   1. Navbar state + scroll progress bar
 ------------------------------------------------------------------ */
-(function initNavbar() {
+(function initScrollChrome() {
   const navbar = document.getElementById('navbar');
-  if (!navbar) return;
+  const progress = document.getElementById('scroll-progress');
+  const backToTop = document.getElementById('backToTop');
 
   function onScroll() {
-    if (window.scrollY > 60) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
+    const y = window.scrollY;
+
+    if (navbar) navbar.classList.toggle('scrolled', y > 40);
+
+    if (progress) {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = max > 0 ? (y / max) * 100 + '%' : '0%';
     }
+
+    if (backToTop) backToTop.hidden = y < 600;
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll(); // run once on load
+  onScroll();
+
+  if (backToTop) {
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    });
+  }
 })();
 
-
 /* ------------------------------------------------------------------
-   2. Mobile Menu Toggle
+   2. Mobile menu
 ------------------------------------------------------------------ */
 (function initMobileMenu() {
-  const navbar     = document.getElementById('navbar');
-  const hamburger  = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (!hamburger || !mobileMenu) return;
+  const hamburger = document.getElementById('hamburger');
+  const menu = document.getElementById('mobile-menu');
+  if (!hamburger || !menu) return;
 
-  function closeMenu() {
-    hamburger.classList.remove('active');
-    hamburger.setAttribute('aria-expanded', 'false');
-    mobileMenu.hidden = true;
+  function setOpen(open) {
+    hamburger.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', String(open));
+    menu.hidden = !open;
+    menu.classList.toggle('open', open);
   }
 
-  hamburger.addEventListener('click', function () {
-    const isOpen = !mobileMenu.hidden;
-    if (isOpen) {
-      closeMenu();
-    } else {
-      hamburger.classList.add('active');
-      hamburger.setAttribute('aria-expanded', 'true');
-      mobileMenu.hidden = false;
-    }
+  hamburger.addEventListener('click', () => {
+    setOpen(!hamburger.classList.contains('open'));
   });
 
-  // Close menu when any link is clicked
-  mobileMenu.querySelectorAll('a').forEach(function (link) {
-    link.addEventListener('click', closeMenu);
+  // Close after choosing a destination
+  menu.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setOpen(false));
   });
 
-  // Close menu on Escape key
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeMenu();
-  });
-
-  // Close menu when clicking outside
-  document.addEventListener('click', function (e) {
-    if (navbar && !navbar.contains(e.target)) closeMenu();
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 720) setOpen(false);
   });
 })();
 
-
 /* ------------------------------------------------------------------
-   3. Scroll-Reveal Animations (Intersection Observer)
+   3. Scroll-reveal animations
 ------------------------------------------------------------------ */
-(function initScrollReveal() {
-  // Respect prefers-reduced-motion
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReducedMotion) {
-    // Make all reveal elements immediately visible
-    document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right').forEach(function (el) {
-      el.classList.add('in-view');
-    });
+(function initReveals() {
+  const targets = document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right');
+  if (!targets.length) return;
+
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    targets.forEach((el) => el.classList.add('visible'));
     return;
   }
 
-  const options = {
-    root: null,
-    rootMargin: '0px 0px -60px 0px',
-    threshold: 0.1,
-  };
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+  );
 
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        observer.unobserve(entry.target); // animate once
-      }
-    });
-  }, options);
-
-  document.querySelectorAll('.reveal-up, .reveal-left, .reveal-right').forEach(function (el) {
-    observer.observe(el);
-  });
+  targets.forEach((el) => observer.observe(el));
 })();
 
-
 /* ------------------------------------------------------------------
-   4. Animated Stat Counters
+   4. Animated stat counters
 ------------------------------------------------------------------ */
-(function initStatCounters() {
-  const statNumbers = document.querySelectorAll('.stat-number[data-target]');
-  if (!statNumbers.length) return;
+(function initCounters() {
+  const counters = document.querySelectorAll('.stat-number');
+  if (!counters.length) return;
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function animateCounter(el) {
-    const target = parseInt(el.dataset.target, 10);
-    if (isNaN(target)) return;
+  function animate(el) {
+    const target = parseInt(el.dataset.target, 10) || 0;
 
     if (prefersReducedMotion) {
-      el.textContent = target.toLocaleString();
+      el.textContent = target.toLocaleString('en-US');
       return;
     }
 
-    const duration = 1800; // ms
-    const startTime = performance.now();
-    const startValue = 0;
+    const duration = 1800;
+    const start = performance.now();
 
-    function update(currentTime) {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      // Ease-out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = Math.round(startValue + (target - startValue) * eased);
-      el.textContent = current.toLocaleString();
-
-      if (progress < 1) {
-        requestAnimationFrame(update);
-      } else {
-        el.textContent = target.toLocaleString();
-      }
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+      el.textContent = Math.round(target * eased).toLocaleString('en-US');
+      if (t < 1) requestAnimationFrame(tick);
     }
-
-    requestAnimationFrame(update);
+    requestAnimationFrame(tick);
   }
 
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        animateCounter(entry.target);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.5 });
-
-  statNumbers.forEach(function (el) {
-    observer.observe(el);
-  });
-})();
-
-
-/* ------------------------------------------------------------------
-   5. Active Nav Link on Scroll
------------------------------------------------------------------- */
-(function initActiveLinks() {
-  const sections  = document.querySelectorAll('main section[id]');
-  const navLinks  = document.querySelectorAll('.nav-links a[href^="#"], .mobile-menu a[href^="#"]');
-  if (!sections.length || !navLinks.length) return;
-
-  function setActive() {
-    let current = '';
-    const scrollY = window.scrollY + 120;
-
-    sections.forEach(function (section) {
-      if (section.offsetTop <= scrollY) {
-        current = section.id;
-      }
-    });
-
-    navLinks.forEach(function (link) {
-      link.removeAttribute('aria-current');
-      if (link.getAttribute('href') === '#' + current) {
-        link.setAttribute('aria-current', 'page');
-      }
-    });
+  if (!('IntersectionObserver' in window)) {
+    counters.forEach(animate);
+    return;
   }
 
-  window.addEventListener('scroll', debounce(setActive, 50), { passive: true });
-  setActive();
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animate(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  counters.forEach((el) => observer.observe(el));
 })();
 
-
 /* ------------------------------------------------------------------
-   6. Contact Form Validation & Submission Feedback
+   5. Contact form (Formspree AJAX)
 ------------------------------------------------------------------ */
 (function initContactForm() {
-  const form   = document.getElementById('contact-form');
+  const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   if (!form || !status) return;
 
-  form.addEventListener('submit', function (e) {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Basic client-side validation
-    const name    = form.querySelector('#name');
-    const email   = form.querySelector('#email');
-    const service = form.querySelector('#service');
-    const message = form.querySelector('#message');
-
-    clearErrors(form);
-
-    let valid = true;
-
-    if (!name.value.trim()) {
-      showFieldError(name, 'Please enter your full name.');
-      valid = false;
-    }
-
-    if (!isValidEmail(email.value)) {
-      showFieldError(email, 'Please enter a valid email address.');
-      valid = false;
-    }
-
-    if (!service.value) {
-      showFieldError(service, 'Please select a service.');
-      valid = false;
-    }
-
-    if (!message.value.trim() || message.value.trim().length < 20) {
-      showFieldError(message, 'Please provide shipment details (at least 20 characters).');
-      valid = false;
-    }
-
-    if (!valid) {
-      status.textContent = 'Please fix the errors above and try again.';
-      status.className = 'form-note error';
+    // Native validation with visible feedback
+    if (!form.checkValidity()) {
+      form.reportValidity();
       return;
     }
 
-    // Simulate form submission
-    // UPDATE: Replace this simulation with a real fetch() POST to your backend/form service
-    const submitBtn = form.querySelector('[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending…';
-
+    const button = form.querySelector('.btn-submit');
+    const original = button.innerHTML;
+    button.disabled = true;
+    button.textContent = 'Sending…';
     status.textContent = '';
     status.className = 'form-note';
 
-    // Simulated async delay — replace with actual fetch() call
-    setTimeout(function () {
-      status.textContent = '✓ Thank you! Your request has been received. We\'ll be in touch within 24 hours.';
-      status.className = 'form-note success';
-      form.reset();
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Send My Request';
-    }, 1200);
-  });
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
 
-  function isValidEmail(value) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
-  }
-
-  function showFieldError(field, message) {
-    field.style.borderColor = '#e74c3c';
-    const errId = field.id + '-error';
-    const err = document.createElement('span');
-    err.id = errId;
-    err.setAttribute('role', 'alert');
-    err.style.cssText = 'color:#e74c3c;font-size:0.8rem;margin-top:0.2rem;display:block;';
-    err.textContent = message;
-    field.setAttribute('aria-describedby', errId);
-    field.parentNode.appendChild(err);
-  }
-
-  function clearErrors(frm) {
-    frm.querySelectorAll('[role="alert"]').forEach(function (el) { el.remove(); });
-    frm.querySelectorAll('input, select, textarea').forEach(function (el) {
-      el.style.borderColor = '';
-      el.removeAttribute('aria-describedby');
-    });
-  }
-})();
-
-
-/* ------------------------------------------------------------------
-   7. Back-to-Top Button
------------------------------------------------------------------- */
-(function initBackToTop() {
-  const btn = document.getElementById('backToTop');
-  if (!btn) return;
-
-  function toggleVisibility() {
-    btn.hidden = window.scrollY < 400;
-  }
-
-  window.addEventListener('scroll', debounce(toggleVisibility, 50), { passive: true });
-  toggleVisibility();
-
-  btn.addEventListener('click', function () {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (response.ok) {
+        form.reset();
+        status.textContent =
+          'Request received. A BDE logistics advisor will reply within 24 hours.';
+        status.classList.add('success');
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (err) {
+      status.textContent =
+        'Something went wrong sending your request. Please try again, or email info@bluedolphinenterprise.com directly.';
+      status.classList.add('error');
+    } finally {
+      button.disabled = false;
+      button.innerHTML = original;
+    }
   });
 })();
 
-
 /* ------------------------------------------------------------------
-   8. Dynamic Footer Year
+   6. Footer year
 ------------------------------------------------------------------ */
 (function initFooterYear() {
   const el = document.getElementById('footer-year');
   if (el) el.textContent = new Date().getFullYear();
-})();
-
-
-/* ------------------------------------------------------------------
-   9. Smooth anchor navigation offset compensation
-      (accounts for fixed navbar height)
------------------------------------------------------------------- */
-(function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-    anchor.addEventListener('click', function (e) {
-      const targetId = anchor.getAttribute('href').slice(1);
-      if (!targetId) return;
-
-      const target = document.getElementById(targetId);
-      if (!target) return;
-
-      e.preventDefault();
-
-      const navbarHeight = document.getElementById('navbar')
-        ? document.getElementById('navbar').offsetHeight
-        : 72;
-
-      const top = target.getBoundingClientRect().top + window.scrollY - navbarHeight;
-
-      window.scrollTo({ top: top, behavior: 'smooth' });
-    });
-  });
 })();
