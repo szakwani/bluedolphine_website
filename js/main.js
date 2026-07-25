@@ -200,7 +200,18 @@ const prefersReducedMotion =
 })();
 
 /* ------------------------------------------------------------------
-   6. Footer year
+   6. Reduced motion — CSS handles its own animations, but the hero's
+   SVG cargo dots are SMIL and have to be stopped from script.
+------------------------------------------------------------------ */
+(function haltSvgMotion() {
+  if (!prefersReducedMotion) return;
+  document.querySelectorAll('svg').forEach((svg) => {
+    if (typeof svg.pauseAnimations === 'function') svg.pauseAnimations();
+  });
+})();
+
+/* ------------------------------------------------------------------
+   7. Footer year
 ------------------------------------------------------------------ */
 (function initFooterYear() {
   const el = document.getElementById('footer-year');

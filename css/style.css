@@ -624,7 +624,7 @@ h1, h2, h3, h4 {
   color: #A9BDCC;
 }
 
-.service-icon { width: 52px; margin-bottom: 1.1rem; }
+.service-icon { width: 66px; margin-bottom: 1.1rem; }
 .service-card h3 {
   font-size: 1.45rem;
   text-transform: uppercase;
@@ -664,7 +664,7 @@ h1, h2, h3, h4 {
   transition: transform var(--transition), box-shadow var(--transition);
 }
 .why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
-.why-icon { width: 48px; margin-bottom: 1rem; }
+.why-icon { width: 58px; margin-bottom: 1rem; }
 .why-card h3 { font-size: 1.35rem; text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.45rem; }
 .why-card p { font-size: 0.95rem; }
 
@@ -763,9 +763,10 @@ h1, h2, h3, h4 {
   background: var(--foam);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
-  padding: 1.6rem 1.5rem 1.5rem;
+  padding: 1.6rem 1.5rem 1.5rem 2.3rem;
   transition: transform var(--transition), background var(--transition), border-color var(--transition);
 }
+.industry-icon { width: 54px; margin-bottom: 0.9rem; }
 .industry-card::before {
   content: "";
   position: absolute;
@@ -781,8 +782,8 @@ h1, h2, h3, h4 {
   border-color: #C4D8E8;
 }
 .industry-card:hover::before { background: var(--signal); }
-.industry-card h3 { font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.35rem; padding-left: 0.9rem; }
-.industry-card p { font-size: 0.93rem; padding-left: 0.9rem; }
+.industry-card h3 { font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.35rem; }
+.industry-card p { font-size: 0.93rem; }
 
 /* ------------------------------------------------------------------
    13. Testimonials
@@ -1118,7 +1119,230 @@ a.info-value:hover { color: var(--current-2); }
 .industries-grid .reveal-up:nth-child(6) { transition-delay: 0.5s; }
 
 /* ------------------------------------------------------------------
-   18. Reduced motion
+   18. Animated icon system
+   Every icon animates its own subject: the plane flies its route, the
+   gate lifts for the truck, the stamp lands on the declaration.
+   Motion is held until the card is revealed, so nothing animates
+   off-screen.
+------------------------------------------------------------------ */
+.ic { width: 100%; height: auto; display: block; transition: transform 0.45s var(--ease-out); }
+.ic * { animation-play-state: paused; }
+.visible .ic * { animation-play-state: running; }
+
+.service-card:hover .ic,
+.why-card:hover .ic,
+.industry-card:hover .ic { transform: scale(1.07); }
+
+@keyframes ic-spin   { to { transform: rotate(360deg); } }
+@keyframes ic-dash9  { to { stroke-dashoffset: -9; } }
+@keyframes ic-dash7  { to { stroke-dashoffset: -7; } }
+
+/* — Freight forwarding: plane flies the trade lane — */
+.ic-ff .ff-route { animation: ic-dash9 1.8s linear infinite; }
+.ic-ff .ff-plane {
+  offset-path: path("M10 50 Q32 -26 54 50");
+  offset-rotate: auto;
+  animation: ff-fly 4.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes ff-fly {
+  0%   { offset-distance: 0%;   opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+/* — Shipping: hull rocks, sea scrolls beneath — */
+.ic-st .st-ship {
+  transform-box: view-box;
+  transform-origin: 32px 40px;
+  animation: st-bob 3.8s ease-in-out infinite;
+}
+@keyframes st-bob {
+  0%, 100% { transform: translateY(0) rotate(-2.2deg); }
+  50%      { transform: translateY(-2px) rotate(2.2deg); }
+}
+.ic-st .st-waves { animation: st-wave 3s linear infinite; }
+@keyframes st-wave { to { transform: translateX(-24px); } }
+
+/* — Customs: stamp lifts, lands, check draws in — */
+.ic-cc .cc-stamp {
+  transform-box: view-box;
+  transform-origin: 41px 44px;
+  animation: cc-stamp 3.6s ease-in-out infinite;
+}
+@keyframes cc-stamp {
+  0%, 38%   { transform: scale(1);    opacity: 1; }
+  54%       { transform: scale(1.9);  opacity: 0.25; }
+  70%       { transform: scale(0.92); opacity: 1; }
+  80%       { transform: scale(1.06); }
+  90%, 100% { transform: scale(1); }
+}
+.ic-cc .cc-check { stroke-dasharray: 18; stroke-dashoffset: 0; animation: cc-draw 3.6s ease-in-out infinite; }
+@keyframes cc-draw {
+  0%, 68%   { stroke-dashoffset: 18; }
+  84%, 100% { stroke-dashoffset: 0; }
+}
+
+/* — Warehousing: pallet lowers into the rack — */
+.ic-wh .wh-box { animation: wh-drop 3.2s cubic-bezier(0.34, 1.28, 0.64, 1) infinite; }
+@keyframes wh-drop {
+  0%        { transform: translateY(-24px); opacity: 0; }
+  12%       { opacity: 1; }
+  40%, 100% { transform: translateY(0); opacity: 1; }
+}
+
+/* — Supply chain: hub dispatches to every node — */
+.ic-sc .sc-pulse { animation: sc-run 2.8s ease-out infinite; }
+.ic-sc .sc-p1 { offset-path: path("M32 32 L14 16"); }
+.ic-sc .sc-p2 { offset-path: path("M32 32 L50 16"); animation-delay: 0.35s; }
+.ic-sc .sc-p3 { offset-path: path("M32 32 L14 48"); animation-delay: 0.7s; }
+.ic-sc .sc-p4 { offset-path: path("M32 32 L50 48"); animation-delay: 1.05s; }
+@keyframes sc-run {
+  0%        { offset-distance: 0%;   opacity: 0; }
+  12%       { opacity: 1; }
+  55%       { offset-distance: 100%; opacity: 1; }
+  68%, 100% { offset-distance: 100%; opacity: 0; }
+}
+.ic-sc .sc-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sc-ping 2.8s ease-out infinite;
+}
+.ic-sc .sc-n1 { animation-delay: 0.5s; }
+.ic-sc .sc-n2 { animation-delay: 0.85s; }
+.ic-sc .sc-n3 { animation-delay: 1.2s; }
+.ic-sc .sc-n4 { animation-delay: 1.55s; }
+@keyframes sc-ping { 0%, 100% { transform: scale(1); } 12% { transform: scale(1.22); } }
+
+/* — Clearing: barrier lifts, truck clears the gate — */
+.ic-cf .cf-arm {
+  transform-box: view-box;
+  transform-origin: 48px 23px;
+  animation: cf-lift 4.2s ease-in-out infinite;
+}
+@keyframes cf-lift {
+  0%, 12%   { transform: rotate(0deg); }
+  30%, 70%  { transform: rotate(-74deg); }
+  88%, 100% { transform: rotate(0deg); }
+}
+.ic-cf .cf-truck { animation: cf-drive 4.2s ease-in-out infinite; }
+@keyframes cf-drive {
+  0%, 26% { transform: translateX(-3px); opacity: 1; }
+  60%     { transform: translateX(20px); opacity: 1; }
+  68%     { transform: translateX(31px); opacity: 0; }
+  69%     { transform: translateX(-28px); opacity: 0; }
+  80%     { transform: translateX(-20px); opacity: 1; }
+  100%    { transform: translateX(-3px); opacity: 1; }
+}
+
+/* — On-time: the clock actually runs — */
+.ic-clock .wc-min,
+.ic-clock .wc-hour { transform-box: view-box; transform-origin: 24px 24px; }
+.ic-clock .wc-min  { animation: ic-spin 3s linear infinite; }
+.ic-clock .wc-hour { animation: ic-spin 18s linear infinite; }
+
+/* — Trusted partner: two links close and lock — */
+.ic-link .lk-a { transform-box: view-box; animation: lk-left 2.8s ease-in-out infinite; }
+.ic-link .lk-b { transform-box: view-box; animation: lk-right 2.8s ease-in-out infinite; }
+@keyframes lk-left  { 0%, 100% { transform: translateX(-4px); } 50% { transform: translateX(0); } }
+@keyframes lk-right { 0%, 100% { transform: translateX(4px); }  50% { transform: translateX(0); } }
+.ic-link .lk-spark {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: lk-spark 2.8s ease-in-out infinite;
+}
+@keyframes lk-spark {
+  0%, 28%, 100% { transform: scale(0);   opacity: 0; }
+  50%           { transform: scale(1);   opacity: 1; }
+  72%           { transform: scale(0.9); opacity: 0.75; }
+}
+
+/* — Visibility: radar sweeps, blips answer — */
+.ic-radar .rd-sweep { transform-box: view-box; transform-origin: 24px 24px; animation: ic-spin 3.4s linear infinite; }
+.ic-radar .rd-blip  { transform-box: fill-box; transform-origin: center; animation: rd-blip 3.4s ease-out infinite; }
+.ic-radar .rd-b1 { animation-delay: 0.35s; }
+.ic-radar .rd-b2 { animation-delay: 2.1s; }
+@keyframes rd-blip {
+  0%        { transform: scale(1.7); opacity: 1; }
+  40%, 100% { transform: scale(1);   opacity: 0.18; }
+}
+
+/* — Professional handling: the checklist ticks itself off — */
+.ic-clip [class^="cl-c"] {
+  stroke-dasharray: 13;
+  stroke-dashoffset: 0;
+  animation: cl-tick 4s ease-in-out infinite;
+}
+.ic-clip .cl-c2 { animation-delay: 0.45s; }
+.ic-clip .cl-c3 { animation-delay: 0.9s; }
+@keyframes cl-tick {
+  0%, 6%    { stroke-dashoffset: 13; }
+  22%, 82%  { stroke-dashoffset: 0; }
+  94%, 100% { stroke-dashoffset: 13; }
+}
+
+/* — Customer-focused: someone is already replying — */
+.ic-chat .ch-dot { transform-box: fill-box; transform-origin: center; animation: ch-bounce 1.4s ease-in-out infinite; }
+.ic-chat .ch-d2 { animation-delay: 0.16s; }
+.ic-chat .ch-d3 { animation-delay: 0.32s; }
+@keyframes ch-bounce {
+  0%, 60%, 100% { transform: translateY(0) scale(1); }
+  30%           { transform: translateY(-3.5px) scale(1.12); }
+}
+
+/* — Safe & efficient: charge runs through the shield — */
+.ic-shield .sd-bolt { transform-box: fill-box; transform-origin: center; animation: sd-flash 2.6s ease-in-out infinite; }
+@keyframes sd-flash {
+  0%, 100% { opacity: 1;    transform: scale(1); }
+  45%      { opacity: 0.5;  transform: scale(0.9); }
+  62%      { opacity: 1;    transform: scale(1.14); }
+}
+.ic-shield .sd-body { animation: sd-pulse 2.6s ease-in-out infinite; }
+@keyframes sd-pulse { 0%, 100% { stroke: #2E8FD0; } 62% { stroke: #FF7A29; } }
+
+/* — Industry icons — */
+.ic-retail .rt-bag { transform-box: view-box; transform-origin: 24px 42px; animation: rt-sway 3.4s ease-in-out infinite; }
+@keyframes rt-sway { 0%, 100% { transform: rotate(-3.5deg); } 50% { transform: rotate(3.5deg); } }
+.ic-retail .rt-tag { transform-box: fill-box; transform-origin: center; animation: rt-tag 3.4s ease-in-out infinite; }
+@keyframes rt-tag { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.28); } }
+
+.ic-gear .gr-spin { transform-box: view-box; transform-origin: 24px 24px; animation: ic-spin 7s linear infinite; }
+
+.ic-oil .oi-drop { transform-box: fill-box; transform-origin: center; animation: oi-drop 2.8s ease-in-out infinite; }
+@keyframes oi-drop {
+  0%, 100% { transform: translateY(-4px) scale(0.85); opacity: 0.65; }
+  50%      { transform: translateY(2px) scale(1);     opacity: 1; }
+}
+
+.ic-factory .fc-puff { transform-box: fill-box; transform-origin: center; animation: fc-rise 3s ease-out infinite; }
+.ic-factory .fc-s2 { animation-delay: 1.5s; }
+@keyframes fc-rise {
+  0%   { transform: translateY(2px) scale(0.5);   opacity: 0.45; }
+  100% { transform: translateY(-11px) scale(1.6); opacity: 0; }
+}
+.ic-factory .fc-lit { animation: fc-lit 2.2s ease-in-out infinite; }
+@keyframes fc-lit { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+
+.ic-build .bd-win { animation: bd-blink 3.2s ease-in-out infinite; }
+.ic-build .bd-w2 { animation-delay: 0.5s; }
+.ic-build .bd-w3 { animation-delay: 1s; }
+@keyframes bd-blink { 0%, 100% { opacity: 0.25; } 40%, 60% { opacity: 1; } }
+
+.ic-border .bo-line { animation: ic-dash7 1.6s linear infinite; }
+.ic-border .bo-arrow {
+  offset-path: path("M9 24 H39");
+  offset-rotate: 0deg;
+  animation: bo-cross 3s ease-in-out infinite;
+}
+@keyframes bo-cross {
+  0%        { offset-distance: 0%;   opacity: 0; }
+  15%       { opacity: 1; }
+  70%       { offset-distance: 100%; opacity: 1; }
+  85%, 100% { offset-distance: 100%; opacity: 0; }
+}
+
+/* ------------------------------------------------------------------
+   19. Reduced motion
 ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -1132,7 +1356,7 @@ a.info-value:hover { color: var(--current-2); }
 }
 
 /* ------------------------------------------------------------------
-   19. Responsive
+   20. Responsive
 ------------------------------------------------------------------ */
 @media (max-width: 1024px) {
   .hero-content { grid-template-columns: 1fr; gap: 3rem; }
